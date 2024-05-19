@@ -1,12 +1,9 @@
 import React from 'react';
-import { Col, Container, Row, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Col, Container, Row, Form, FormGroup, Label, Button } from 'reactstrap';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import logoIceptIA from './assets/inceptia.png';
-import axios from 'axios'
-import { URLS } from './Constants';
 import { useNavigate, Navigate  } from 'react-router-dom';
-import Dashboard from './Dashboard';
 import axiosInstance from './axios';
 
 export default function Login() {

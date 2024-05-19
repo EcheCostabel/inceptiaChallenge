@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Col, Input, Label, Row, Table } from "reactstrap";
 import axiosInstance from "./axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -26,10 +26,6 @@ export default function Dashboard() {
   const [botId, setBotId] = useState<number | undefined>(undefined);
 
   const navigate = useNavigate()
-
-  const isAuthenticated = () => {
-    return !!localStorage.getItem("token");
-  };
 
   const validationSchema = Yup.object().shape({
     desde: Yup.date(),
