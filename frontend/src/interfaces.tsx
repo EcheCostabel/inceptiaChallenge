@@ -7,6 +7,12 @@ interface CaseResult {
   name: string;
 }
 
+interface ExtraMetadata {
+  dni?: string;
+  orden?: string;
+  grupo?: string
+}
+
 export interface ClientData {
   last_updated: string;
   case_uuid: string;
@@ -14,4 +20,5 @@ export interface ClientData {
   case_duration: string;
   status: string;
   case_result: CaseResult;
+  extra_metadata: ExtraMetadata;
 }

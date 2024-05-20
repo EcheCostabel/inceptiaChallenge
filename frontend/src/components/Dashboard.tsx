@@ -175,6 +175,9 @@ export default function Dashboard() {
                   <th>Gestionado</th>
                   <th>ID Caso</th>
                   <th>Teléfono</th>
+                  <th>Dni</th>
+                  <th>Grupo</th>
+                  <th>Orden</th>
                   <th>Llamada</th>
                   <th className="text-center">Estado</th>
                 </tr>
@@ -186,6 +189,9 @@ export default function Dashboard() {
                       <td>{row.last_updated}</td>
                       <td>{row.case_uuid}</td>
                       <td>{row.phone}</td>
+                      <td>{row.extra_metadata.dni}</td>
+                      <td>{row.extra_metadata.grupo}</td>
+                      <td>{row.extra_metadata.orden}</td>
                       <td>{row.case_duration}</td>
                       <td className="text-center">{row.case_result.name}</td>
                     </tr>
