@@ -1,6 +1,5 @@
 import React from 'react'
-import Dashboard from './Dashboard';
-import Login from './Login';
+import Dashboard from '../components/Dashboard';
 import { Navigate } from 'react-router-dom';
 
 export default function DefaultLayout() {

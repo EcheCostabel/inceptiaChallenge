@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Col, Container, Row, Form, FormGroup, Label, Button } from 'reactstrap';
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import logoIceptIA from './assets/inceptia.png';
+import logoIceptIA from '../assets/inceptia.png';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
-import axiosInstance from './axios';
+import axiosInstance from '../axiosConfig/axios';
 
 export default function Login() {
   const [error, setError] = useState('');

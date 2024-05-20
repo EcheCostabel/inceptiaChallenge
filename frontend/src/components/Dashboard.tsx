@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Input, Label, Row, Spinner, Table } from "reactstrap";
-import axiosInstance from "./axios";
+import axiosInstance from "../axiosConfig/axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { MdLogout } from "react-icons/md";
-import "./App.css";
+import "../App.css";
 
 interface Client {
   id: number;

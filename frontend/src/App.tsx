@@ -1,7 +1,7 @@
 import React from "react";
-import Login from "./Login";
+import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import DefaultLayout from "./DefaultLayout";
+import DefaultLayout from "./layout/DefaultLayout";
 
 
 export default function App() {
