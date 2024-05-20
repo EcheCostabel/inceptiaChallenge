@@ -175,7 +175,7 @@ export default function Dashboard() {
             <h3>Seleccione un cliente...</h3>
           ) : isLoading ? (
             <Col className="d-flex justify-content-center">
-              <Spinner size="xl" color="primary" />
+              <Spinner color="primary" />
             </Col>
           ) : (
             <Table>
