@@ -6,20 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { MdLogout } from "react-icons/md";
 import "../App.css";
+import { Client, ClientData } from "../interfaces";
 
-interface Client {
-  id: number;
-  name: string;
-  alias: string;
-}
 
-interface ClientData {
-  last_updated: string;
-  case_uuid: string;
-  phone: number;
-  case_duration: string;
-  status: string;
-}
 
 export default function Dashboard() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -66,6 +55,8 @@ export default function Dashboard() {
     localStorage.clear();
     navigate("/login");
   };
+
+  console.log(clientData)
 
   return (
     <Row className="vh-100 d-flex">
@@ -185,7 +176,7 @@ export default function Dashboard() {
                   <th>ID Caso</th>
                   <th>Teléfono</th>
                   <th>Llamada</th>
-                  <th>Estado</th>
+                  <th className="text-center">Estado</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,7 +187,7 @@ export default function Dashboard() {
                       <td>{row.case_uuid}</td>
                       <td>{row.phone}</td>
                       <td>{row.case_duration}</td>
-                      <td>{row.status}</td>
+                      <td className="text-center">{row.case_result.name}</td>
                     </tr>
                   ))}
               </tbody>
