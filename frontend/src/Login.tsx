@@ -22,7 +22,7 @@ export default function Login() {
     isAuthenticated()
     ? <Navigate to='/' />
     :
-    <Container fluid className='d-flex flex-column align-items-center justify-content-center'>
+    <Container fluid className='vh-100 d-flex flex-column align-items-center justify-content-center'>
       <Row className='w-100 justify-content-center'>
         <Col xs={12} md={6} className='text-center'>
           <img src={logoIceptIA} alt='banner inceptia' className='img-fluid' />
@@ -34,9 +34,13 @@ export default function Login() {
               initialValues={{ email: '', password: '' }}
               validationSchema={LoginSchema}
               onSubmit={async(values) =>{
-                const response = await axiosInstance.post(`/api/v1/login/`, values)
-                localStorage.setItem('token', response.data.token)
-                navigate('/')
+                try {
+                  const response = await axiosInstance.post(`/api/v1/login/`, values)
+                  localStorage.setItem('token', response.data.token)
+                  navigate('/')
+                } catch (error) {
+                  console.error(error)
+                }
               }}
             >
               {({ handleSubmit }) => (
@@ -65,7 +69,9 @@ export default function Login() {
           </Formik>
         </Col>
       </Row>
-      
+      <Col className='d-flex flex-grow  align-items-end pb-3'>
+        <Label>Developed by Exequiel Costabel</Label>
+      </Col>
     </Container>
   );
 }
