@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Input, Label, Row, Table } from "reactstrap";
+import { Button, Col, Input, Label, Row, Spinner, Table } from "reactstrap";
 import axiosInstance from "./axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -20,12 +20,14 @@ interface ClientData {
   case_duration: string;
   status: string;
 }
+
 export default function Dashboard() {
   const [clients, setClients] = useState<Client[]>([]);
   const [clientData, setClientData] = useState<ClientData[]>([]);
   const [botId, setBotId] = useState<number | undefined>(undefined);
+  const [isLoading, setisLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     desde: Yup.date(),
@@ -46,6 +48,7 @@ export default function Dashboard() {
   }, []);
 
   const getBotData = async (id: number) => {
+    setisLoading(true);
     try {
       const response = await axiosInstance.get(
         `/api/v1/inbound-case/?bot=${id}`
@@ -54,13 +57,15 @@ export default function Dashboard() {
       setBotId(id);
     } catch (error) {
       console.error(error);
+    } finally {
+      setisLoading(false);
     }
   };
 
   const logout = () => {
     localStorage.clear();
-    navigate('/login')
-  }
+    navigate("/login");
+  };
 
   return (
     <Row className="vh-100 d-flex">
@@ -81,7 +86,11 @@ export default function Dashboard() {
       <Col md={10} className="main-content bg-light pt-4 px-4">
         <Col className="d-flex justify-content-between">
           <Label>Reportes</Label>
-          <Button color="transparent" className="d-flex gap-2 align-items-center" onClick={() => logout()}>
+          <Button
+            color="transparent"
+            className="d-flex gap-2 align-items-center"
+            onClick={() => logout()}
+          >
             Cerrar sesión
             <MdLogout className="fs-3" />
           </Button>
@@ -89,17 +98,18 @@ export default function Dashboard() {
         <Formik
           initialValues={{ desde: "", hasta: "" }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting }) => {
+            setisLoading(true);
             const { desde, hasta } = values;
             const url = `/api/v1/inbound-case/?bot=${botId}&local_updated__date__gte=${desde}&local_updated__date__lte=${hasta}`;
             try {
-              axiosInstance.get(url).then((response) => {
-                setClientData(response.data.results);
-                setSubmitting(false);
-              });
+              const response = await axiosInstance.get(url);
+              setClientData(response.data.results);
             } catch (error) {
-              setSubmitting(false);
               console.error(error);
+            } finally {
+              setisLoading(false);
+              setSubmitting(false);
             }
           }}
         >
@@ -147,7 +157,14 @@ export default function Dashboard() {
                   outline={true}
                   disabled={isSubmitting || !botId}
                 >
-                  {isSubmitting ? "Buscando..." : "Buscar"}
+                  {isSubmitting ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <span>Buscando...</span>
+                      <Spinner size="sm" />
+                    </div>
+                  ) : (
+                    "Buscar"
+                  )}
                 </Button>
               </Col>
             </Form>
@@ -156,6 +173,10 @@ export default function Dashboard() {
         <Col>
           {!botId ? (
             <h3>Seleccione un cliente...</h3>
+          ) : isLoading ? (
+            <Col className="d-flex justify-content-center">
+              <Spinner size="xl" color="primary" />
+            </Col>
           ) : (
             <Table>
               <thead>
@@ -184,5 +205,5 @@ export default function Dashboard() {
         </Col>
       </Col>
     </Row>
-  ) 
+  );
 }

@@ -3,7 +3,7 @@ import "react-app-polyfill/ie11";
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import App from "./App.tsx";
+import App from "./App";
 
 
 ReactDOM.render(
