@@ -15,7 +15,7 @@ export default function Dashboard() {
   const [clientData, setClientData] = useState<ClientData[]>([]);
   const [botId, setBotId] = useState<number | undefined>(undefined);
   const [isLoading, setisLoading] = useState(false);
-
+  const [emptyResults, setEmptyResults] = useState('')
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -56,8 +56,6 @@ export default function Dashboard() {
     navigate("/login");
   };
 
-  console.log(clientData)
-
   return (
     <Row className="vh-100 d-flex">
       <Col md={2} className="sidebar bg-primary">
@@ -95,7 +93,14 @@ export default function Dashboard() {
             const url = `/api/v1/inbound-case/?bot=${botId}&local_updated__date__gte=${desde}&local_updated__date__lte=${hasta}`;
             try {
               const response = await axiosInstance.get(url);
-              setClientData(response.data.results);
+              console.log(response)
+              if(response.data.results.length === 0) {
+                setClientData([]);
+                setEmptyResults('No existen datos en este rango de fechas')
+              } else {
+                setClientData(response.data.results);
+                setEmptyResults('')
+              }
             } catch (error) {
               console.error(error);
             } finally {
@@ -199,6 +204,7 @@ export default function Dashboard() {
               </tbody>
             </Table>
           )}
+          {emptyResults && <Label>{emptyResults}</Label>}
         </Col>
       </Col>
     </Row>
